@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Security Headers -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Secure HTML Page</title>
+</head>
+<body>
+    <h1>Welcome to Secure HTML Page</h1>
+    
+    <!-- DOMPurify for input sanitization -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    
+    <script>
+        // Input validation and sanitization function
+        function sanitizeInput(input) {
+            if (typeof input !== 'string') {
+                return '';
+            }
+            // Remove any HTML tags and sanitize
+            return DOMPurify.sanitize(input, {ALLOWED_TAGS: []});
+        }
+        
+        function validateInput(input) {
+            if (!input || input.trim().length === 0) {
+                console.warn('Input validation failed: Empty input');
+                return false;
+            }
+            if (input.length > 500) {
+                console.warn('Input validation failed: Input exceeds maximum length');
+                return false;
+            }
+            return true;
+        }
+        
+        // Usage example
+        function processUserInput(userInput) {
+            if (validateInput(userInput)) {
+                const cleanInput = sanitizeInput(userInput);
+                console.log('Sanitized input:', cleanInput);
+                return cleanInput;
+            }
+            return null;
+        }
+    </script>
+</body>
+</html>
